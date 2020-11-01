@@ -1,5 +1,40 @@
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
+
+/* Changing this requires restart for some reason. */
+@layer components {
+  .f-row {
+    @apply flex flex-row;
+  }
+
+  .f-col {
+    @apply flex flex-col;
+  }
+
+  .page-width {
+    @apply px-4 w-full;
+  }
+
+  @screen md {
+    .page-width {
+      @apply w-5/6 m-auto;
+    }
+  }
+
+  .label {
+    @apply uppercase text-xs text-gray-600;
+  }
+
+  .input {
+    @apply outline-none border-b-2 pb-2;
+  }
+
+  .input:hover {
+    @apply border-gray-700;
+  }
+
+  .input:focus {
+    @apply border-green-400;
+  }
+}

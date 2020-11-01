@@ -605,6 +605,56 @@ video {
   }
 }
 
+.f-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.f-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-width {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .page-width {
+    width: 83.333333%;
+    margin: auto;
+  }
+}
+
+.label {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  --text-opacity: 1;
+  color: #718096;
+  color: rgba(113, 128, 150, var(--text-opacity))
+}
+
+.input {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  border-bottom-width: 2px;
+  padding-bottom: 0.5rem;
+}
+
+.input:hover {
+  --border-opacity: 1;
+  border-color: #4a5568;
+  border-color: rgba(74, 85, 104, var(--border-opacity));
+}
+
+.input:focus {
+  --border-opacity: 1;
+  border-color: #68d391;
+  border-color: rgba(104, 211, 145, var(--border-opacity));
+}
+
 .space-y-0 > :not(template) ~ :not(template) {
   --space-y-reverse: 0;
   margin-top: calc(0px * calc(1 - var(--space-y-reverse)));
@@ -19199,6 +19249,8 @@ video {
 .animate-bounce {
   animation: bounce 1s infinite;
 }
+
+/* Changing this requires restart for some reason. */
 
 @media (min-width: 640px) {
   .sm\:container {

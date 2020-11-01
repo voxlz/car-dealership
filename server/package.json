@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/voxlz/car-dealership#readme",
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
     "@types/express": "^4.17.8",
     "@types/mongodb": "^3.5.32",
     "@types/node": "^14.14.6",
+    "bcrypt": "^5.0.0",
     "express": "^4.17.1",
     "mongodb": "^3.6.2",
     "nodemon": "^2.0.6",
