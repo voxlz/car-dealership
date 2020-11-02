@@ -31,9 +31,9 @@ const ModelTable: React.FC<Props> = props => {
       })
         .then(res => res.json())
         .then(obj => setModels(models?.concat(obj)))
-        .then(() => setCarModel({} as ICarModel))
-        .then(() => setIsValidNumber(true))
         .catch(err => console.error(err));
+      setCarModel({} as ICarModel);
+      setIsValidNumber(true);
     } else setIsValidNumber(false);
   };
 

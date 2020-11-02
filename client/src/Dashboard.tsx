@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModelTable from './ModelTable';
-
-interface Props {}
 
 export interface ICarModel {
   _id: string;
@@ -14,7 +12,7 @@ export interface IEmployee {
   name: string;
 }
 
-const Dashboard: React.FC<Props> = props => {
+const Dashboard: React.FC<{}> = () => {
   const [models, setModels] = useState<ICarModel[]>();
   const [employees, setEmployees] = useState<IEmployee[]>();
 

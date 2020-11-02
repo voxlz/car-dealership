@@ -633,13 +633,14 @@ video {
   font-size: 0.75rem;
   --text-opacity: 1;
   color: #718096;
-  color: rgba(113, 128, 150, var(--text-opacity))
+  color: rgba(113, 128, 150, var(--text-opacity));
 }
 
 .input {
   outline: 2px solid transparent;
   outline-offset: 2px;
   border-bottom-width: 2px;
+  padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
 

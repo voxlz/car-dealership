@@ -12,7 +12,7 @@ const epPort = 5000;
 const dbURI = 'mongodb://localhost:27017/';
 const dbClient = new MongoClient(dbURI, { useUnifiedTopology: true });
 
-interface IUser {
+export interface IUser {
   _id: string;
   pass: string;
   email: string;
@@ -20,9 +20,15 @@ interface IUser {
   employeeId?: string;
 }
 
-interface ILogin {
+export interface ILogin {
   pass: string;
   email: string;
+}
+
+export interface IServerRes {
+  success: boolean;
+  value: string | IUser;
+  emailExisted: boolean | undefined;
 }
 
 async function useDB() {
@@ -38,6 +44,9 @@ function loadInitDB() {
       await db.dropCollection('employees');
       await db.dropCollection('carmodels');
       await db.dropCollection('sales');
+      await db.dropCollection('users');
+
+      db.collection('users').createIndex({ email: 1 }, { unique: true });
 
       db.collection('employees')
         .insertMany(data.carshop.employees)
@@ -91,19 +100,39 @@ async function main() {
 
   // Expects user in body, with plain text pass field
   app.post('/register', (req, res) => {
-    const user = req.body as IUser;
-    bcrypt.hash(user.pass, 10, function (err, hash) {
+    const usr = req.body as IUser;
+    bcrypt.hash(usr.pass, 10, function (err, hash) {
       if (err) return console.error(err);
       let employeeId;
       useDB()
         .then(db => {
           db.collection('employees')
-            .findOne({ name: user.name })
-            .then(user => (employeeId = user._id));
-          const hashedUser = { ...user, ...{ pass: hash, employeeId: employeeId } };
+            .findOne({ name: usr.name })
+            .then(user => {
+              if (user) employeeId = user._id;
+            });
+          const hashUsr = { ...usr, ...{ pass: hash, employeeId: employeeId } };
+
           db.collection('users')
-            .insertOne(hashedUser)
-            .then(result => res.send(result.insertedId));
+            .insertOne(hashUsr)
+            .then(result => {
+              if (result.result.ok === 1) {
+                const hashUserWithID = { ...hashUsr, ...{ _id: result.insertedId } };
+                const serverRes: IServerRes = {
+                  success: true,
+                  value: hashUserWithID,
+                  emailExisted: false,
+                };
+                res.send(serverRes);
+              } else {
+                const serverRes: IServerRes = {
+                  success: false,
+                  value: 'User could not be inserted into database',
+                  emailExisted: true,
+                };
+                res.send(serverRes);
+              }
+            });
         })
         .catch(err => console.log(err));
     });
@@ -111,14 +140,31 @@ async function main() {
 
   // Expects pass and email in body
   app.post('/login', (req, res) => {
-    bcrypt.hash(req.body.pass, 10, function (err, hash) {
-      if (err) return console.error(err);
-      const loginReq = { ...req.body, ...{ pass: hash } };
-      useDB()
-        .then(db => db.collection('users').findOne<IUser>(loginReq))
-        .then(user => res.send(user))
-        .catch(err => console.log(err));
-    });
+    useDB()
+      .then(db =>
+        db.collection('users').findOne<IUser>({ email: req.body.email })
+      )
+      .then(user => {
+        if (user)
+          bcrypt.compare(req.body.pass, user.pass, function (err, isSame) {
+            if (err) return console.error(err);
+            const serverRes: IServerRes = {
+              success: isSame,
+              value: isSame ? user : 'Password was incorrect',
+              emailExisted: true,
+            };
+            res.send(serverRes);
+          });
+        else {
+          const serverRes: IServerRes = {
+            success: false,
+            value: 'User with this email does not exist',
+            emailExisted: false,
+          };
+          res.send(serverRes);
+        }
+      })
+      .catch(err => console.log(err));
   });
 }
 
