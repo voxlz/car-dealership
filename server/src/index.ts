@@ -45,7 +45,7 @@ function loadInitDB() {
       await db.dropCollection('employees');
       await db.dropCollection('carmodels');
       await db.dropCollection('sales');
-      //await db.dropCollection('users');
+      await db.dropCollection('users');
 
       db.collection('users').createIndex({ email: 1 }, { unique: true });
 
@@ -62,7 +62,7 @@ function loadInitDB() {
     .catch(err => console.log(err));
 }
 
-//loadInitDB();
+// loadInitDB();
 
 async function main() {
   app.get('/employees', (req, res) => {

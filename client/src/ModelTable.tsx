@@ -72,7 +72,7 @@ const ModelTable: React.FC<Props> = props => {
           <p className='w-1/3'>price</p>
         </div>
 
-        {models?.map((model, i) => (
+        {models?.map(model => (
           <>
             <div
               className={
