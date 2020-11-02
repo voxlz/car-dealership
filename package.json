@@ -4,7 +4,9 @@
   "description": "car dealership homepage application",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently --kill-others \"npm run start --prefix ./client\" \"npm run dev --prefix ./server\""
+    "dev": "concurrently --kill-others \"npm run start --prefix ./client\" \"npm run dev --prefix ./server\"",
+    "postinstall": "npm install --prefix ./server && npm install --prefix ./client",
+    "postinstall2": "npm install --prefix ./server && npm install --prefix ./client && npm run build --prefix ./client"
   },
   "repository": {
     "type": "git",

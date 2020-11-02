@@ -13,12 +13,20 @@
   }
 
   .page-width {
-    @apply px-4 w-full;
+    @apply pl-4 pr-8 w-full;
+  }
+
+  .title {
+    @apply text-xl font-bold text-teal-500 mb-4 text-center mt-8;
   }
 
   @screen md {
     .page-width {
       @apply w-5/6 m-auto;
+    }
+
+    .title {
+      @apply text-left;
     }
   }
 
@@ -27,7 +35,7 @@
   }
 
   .input {
-    @apply outline-none border-b-2 py-2;
+    @apply outline-none border-b-2 py-2  rounded-sm;
   }
 
   .input:hover {
@@ -36,5 +44,33 @@
 
   .input:focus {
     @apply border-green-400;
+  }
+
+  .btn {
+    @apply h-10 w-24 text-white text-center  self-end cursor-pointer mt-2 rounded-md font-medium text-xl pt-1 shadow-md;
+  }
+
+  .btn-primary {
+    @apply bg-teal-500;
+  }
+
+  .btn-primary:hover {
+    @apply bg-teal-600;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-500;
+  }
+
+  .btn-secondary:hover {
+    @apply bg-gray-600;
+  }
+
+  .btn-danger {
+    @apply bg-red-500;
+  }
+
+  .btn-danger:hover {
+    @apply bg-red-600;
   }
 }

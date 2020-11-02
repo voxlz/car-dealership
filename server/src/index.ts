@@ -9,7 +9,8 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 const epPort = 5000;
-const dbURI = 'mongodb://localhost:27017/';
+const dbURI =
+  'mongodb+srv://dbUser:H8gjOc8dgTEHztnY@cluster0.mhvck.mongodb.net/carShop?retryWrites=true&w=majority';
 const dbClient = new MongoClient(dbURI, { useUnifiedTopology: true });
 
 export interface IUser {
@@ -35,7 +36,7 @@ async function useDB() {
   if (!dbClient.isConnected()) {
     await dbClient.connect();
   }
-  return dbClient.db('carshop');
+  return dbClient.db('carShop');
 }
 
 function loadInitDB() {
@@ -44,7 +45,7 @@ function loadInitDB() {
       await db.dropCollection('employees');
       await db.dropCollection('carmodels');
       await db.dropCollection('sales');
-      await db.dropCollection('users');
+      //await db.dropCollection('users');
 
       db.collection('users').createIndex({ email: 1 }, { unique: true });
 
@@ -60,6 +61,8 @@ function loadInitDB() {
     })
     .catch(err => console.log(err));
 }
+
+//loadInitDB();
 
 async function main() {
   app.get('/employees', (req, res) => {
@@ -95,6 +98,16 @@ async function main() {
     useDB()
       .then(db => db.collection('sales').aggregate(salesReq).toArray())
       .then(result => res.send(result))
+      .catch(err => console.log(err));
+  });
+
+  app.get('/sales', (req, res) => {
+    useDB()
+      .then(db => db.collection('sales').aggregate(salesReq2).toArray())
+      .then(result => {
+        console.log(result);
+        res.send(result);
+      })
       .catch(err => console.log(err));
   });
 
@@ -203,5 +216,30 @@ const salesReq = [
       name: { $first: '$employee.name' },
       sales: { $sum: '$carmodel.price' },
     },
+  },
+];
+
+const salesReq2 = [
+  {
+    $lookup: {
+      localField: 'employee_id',
+      from: 'employees',
+      foreignField: 'id',
+      as: 'employee',
+    },
+  },
+  {
+    $unwind: '$employee',
+  },
+  {
+    $lookup: {
+      localField: 'carmodel_id',
+      from: 'carmodels',
+      foreignField: 'id',
+      as: 'carmodel',
+    },
+  },
+  {
+    $unwind: '$carmodel',
   },
 ];
