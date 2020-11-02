@@ -3,4 +3,4 @@ Case study for an potential employer. Internal car dealership homepage for emplo
 
 Setup:
 ------
-Run "npm install && npm run dev" in the root directory.
+Run "npm install && npm run dev" in the root directory and wait until the bowser shows the homepage.
