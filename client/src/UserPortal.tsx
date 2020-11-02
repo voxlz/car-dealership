@@ -73,7 +73,7 @@ const UserPortal: React.FC<Props> = ({ setUser }) => {
           onLogin();
         } else {
           setRegErr(res.value as string);
-          setRegEmailIssue(!res.emailExisted);
+          setRegEmailIssue(res.emailExisted as boolean);
         }
       })
       .catch(err => console.error(err));

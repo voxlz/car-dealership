@@ -123,7 +123,9 @@ async function main() {
             .findOne({ name: usr.name })
             .then(user => {
               if (user) employeeId = user._id;
-            });
+            })
+            .catch();
+
           const hashUsr = { ...usr, ...{ pass: hash, employeeId: employeeId } };
 
           db.collection('users')
@@ -137,14 +139,15 @@ async function main() {
                   emailExisted: false,
                 };
                 res.send(serverRes);
-              } else {
-                const serverRes: IServerRes = {
-                  success: false,
-                  value: 'User could not be inserted into database',
-                  emailExisted: true,
-                };
-                res.send(serverRes);
               }
+            })
+            .catch(() => {
+              const serverRes: IServerRes = {
+                success: false,
+                value: 'Email already exists',
+                emailExisted: true,
+              };
+              res.send(serverRes);
             });
         })
         .catch(err => console.log(err));

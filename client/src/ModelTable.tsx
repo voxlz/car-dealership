@@ -14,17 +14,28 @@ export const textStyle = {
 
 const ModelTable: React.FC<Props> = props => {
   const [models, setModels] = useState(props.models);
-  const [carModel, setCarModel] = useState({} as ICarModel);
+  const [carModel, setCarModel] = useState<ICarModel>({} as ICarModel);
   const [isValidNumber, setIsValidNumber] = useState(true);
+  const [isValidBrand, setIsValidBrand] = useState(true);
+  const [isValidModel, setIsValidModel] = useState(true);
 
   useEffect(() => {
     setModels(props.models);
   }, [props.models]);
 
   const handleAdd = (_e: React.MouseEvent<SVGElement, MouseEvent>) => {
-    console.log('model', carModel.price);
-    if (!isNaN(Number(carModel.price))) {
-      setCarModel({ ...carModel, ...{ price: String(Number(carModel.price)) } });
+    //console.log('model', carModel?.price);
+
+    const validPrice = !isNaN(Number(carModel?.price));
+    const validBrand = carModel.brand && carModel.brand !== '';
+    const validModel = carModel.model && carModel.model !== '';
+
+    setIsValidNumber(validPrice);
+    setIsValidBrand(validBrand as boolean);
+    setIsValidModel(validModel as boolean);
+
+    if (validPrice && validBrand && validModel) {
+      setCarModel({ ...carModel, ...{ price: String(Number(carModel?.price)) } });
       fetch('/carmodels', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -35,7 +46,9 @@ const ModelTable: React.FC<Props> = props => {
         .catch(err => console.error(err));
       //setCarModel({} as ICarModel);
       setIsValidNumber(true);
-    } else setIsValidNumber(false);
+      setIsValidModel(true);
+      setIsValidModel(true);
+    }
   };
 
   const handleRemove = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
@@ -94,14 +107,14 @@ const ModelTable: React.FC<Props> = props => {
             <input
               value={carModel?.brand}
               onChange={e => setCarModel({ ...carModel, ...{ brand: e.currentTarget.value } })}
-              className='input w-1/3 mr-1'
+              className={'input w-1/3 mr-1  ' + (isValidBrand ? '' : ' focus:border-red-500 border-red-500')}
               placeholder='Brand'
             />
             <input
               value={carModel?.model}
               onChange={e => setCarModel({ ...carModel, ...{ model: e.currentTarget.value } })}
               placeholder='Model'
-              className='input w-1/3 mr-1  '
+              className={'input w-1/3 mr-1  ' + (isValidModel ? '' : ' focus:border-red-500 border-red-500')}
             />
             <div className='w-1/3 f-row'>
               <input
