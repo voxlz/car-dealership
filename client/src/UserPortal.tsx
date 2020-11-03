@@ -90,7 +90,7 @@ const UserPortal: React.FC<Props> = ({ setUser }) => {
         })
         .catch(err => console.error(err));
     } else {
-      setRegErr('Fields cannot be empty');
+      //setRegErr('Fields cannot be empty');
     }
   };
 
@@ -132,21 +132,21 @@ const UserPortal: React.FC<Props> = ({ setUser }) => {
         <h2 className='text-2xl text-teal-600 font-semibold'>Register</h2>
         <p className='label'>E-mail</p>
         <input
-          className={'input' + (regErr !== '' && (regEmailIssue || !regValidEmail) ? ' border-red-700' : '')}
+          className={'input' + ((regErr !== '' && regEmailIssue) || !regValidEmail ? ' border-red-700' : '')}
           type='email'
           value={regEmail}
           onChange={e => setRegEmail(e.currentTarget.value)}
         />
         <p className='label'>Password </p>
         <input
-          className={'input' + (regErr !== '' && (!regEmailIssue || !regValidPass) ? ' border-red-700' : '')}
+          className={'input' + ((regErr !== '' && !regEmailIssue) || !regValidPass ? ' border-red-700' : '')}
           type='password'
           value={regPass}
           onChange={e => setRegPass(e.currentTarget.value)}
         />
         <p className='label'>Name</p>
         <input
-          className={'input' + (regErr !== '' && !regValidName ? ' border-red-700' : '')}
+          className={'input' + (!regValidName ? ' border-red-700' : '')}
           type='name'
           value={regName}
           onChange={e => setRegName(e.currentTarget.value)}

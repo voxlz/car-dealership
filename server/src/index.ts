@@ -62,7 +62,7 @@ function loadInitDB() {
     .catch(err => console.log(err));
 }
 
-// loadInitDB();
+//loadInitDB();
 
 async function main() {
   app.get('/employees', (req, res) => {
