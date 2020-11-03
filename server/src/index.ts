@@ -200,7 +200,7 @@ const salesReq = [
     },
   },
   {
-    $unwind: '$employee',
+    $unwind: { path: '$employee', preserveNullAndEmptyArrays: true },
   },
   {
     $lookup: {
@@ -211,7 +211,7 @@ const salesReq = [
     },
   },
   {
-    $unwind: '$carmodel',
+    $unwind: { path: '$carmodel', preserveNullAndEmptyArrays: true },
   },
   {
     $group: {
@@ -232,7 +232,7 @@ const salesReq2 = [
     },
   },
   {
-    $unwind: '$employee',
+    $unwind: { path: '$employee', preserveNullAndEmptyArrays: true },
   },
   {
     $lookup: {
@@ -243,6 +243,6 @@ const salesReq2 = [
     },
   },
   {
-    $unwind: '$carmodel',
+    $unwind: { path: '$carmodel', preserveNullAndEmptyArrays: true },
   },
 ];

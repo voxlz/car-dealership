@@ -14,7 +14,7 @@ export interface ISale {
   employee_id: number;
   carmodel_id: number;
   employee: IEmployee;
-  carmodel: ICarModel;
+  carmodel?: ICarModel;
 }
 
 type IEmpSale = IEmployee & {
@@ -102,13 +102,13 @@ const Profile: React.FC<Props> = ({ user, setUser }) => {
                     }>
                     <div className={'flex flex-row  text-black align-middle h-full py-2 w-full text-center'}>
                       <div className='w-1/3'>
-                        <p style={textStyle}>{sale.carmodel.brand}</p>
+                        <p style={textStyle}>{sale.carmodel?.brand ?? 'error'}</p>
                       </div>
                       <div className='w-1/3'>
-                        <p style={textStyle}>{sale.carmodel.model}</p>
+                        <p style={textStyle}>{sale.carmodel?.model ?? 'error'}</p>
                       </div>
                       <div className='w-1/3'>
-                        <p style={textStyle}>{sale.carmodel.price} kr</p>
+                        <p style={textStyle}>{sale.carmodel?.price ?? 'error'} kr</p>
                       </div>
                     </div>
                   </div>

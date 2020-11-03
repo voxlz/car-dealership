@@ -79,13 +79,13 @@ const Dashboard: React.FC<{}> = () => {
                     <p style={textStyle}>{sale.employee.name}</p>
                   </div>
                   <div className='w-1/4'>
-                    <p style={textStyle}>{sale.carmodel.brand}</p>
+                    <p style={textStyle}>{sale.carmodel?.brand ?? 'error'}</p>
                   </div>
                   <div className='w-1/4'>
-                    <p style={textStyle}>{sale.carmodel.model}</p>
+                    <p style={textStyle}>{sale.carmodel?.model ?? 'error'}</p>
                   </div>
                   <div className='w-1/4'>
-                    <p style={textStyle}>{sale.carmodel.price} kr</p>
+                    <p style={textStyle}>{sale.carmodel?.price ?? 'error'} kr</p>
                   </div>
                 </div>
               </div>
